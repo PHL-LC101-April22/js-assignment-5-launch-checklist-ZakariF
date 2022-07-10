@@ -47,39 +47,50 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
             let fuel_Level = document.getElementById("fuelStatus")
             let cargo_Level = document.getElementById("cargoStatus");
             let new_Text = document.getElementById("launchStatus");
-            if ((validateInput(pilot) === "Empty") || (validateInput(copilot)==="Empty") || (validateInput(fuel_Level)==="Empty") || (validateInput(cargo_Level)==="Empty")) {
-                alert("All fields input is require");
-                return false ;
-            } else {
+            if ((validateInput(pilot) === "Empty") || (validateInput(copilot)==="Empty") || (validateInput(fuelLevel)==="Empty") || (validateInput(cargoLevel)==="Empty")) {
+                alert("All fields input is require") 
+            } else if (validateInput(pilot)=== "Is a Number" || validateInput(copilot)==="Is a Number") {
+                alert("You need to enter Strings for pilot and copilot");
+            } 
+            else if (validateInput(fuelLevel)==="Not a Number" || validateInput(cargoLevel)==="Not a Number"){
+                alert("You did not enter a number")
+            }  else {
+                list.style.visibility = "visible"
                 pilot1.innerHTML =  `Pilot: ${pilot}`;
                 copi_lot.innerHTML = `Copilot: ${copilot}` ;
 
                 if (fuelLevel < 10000 ) {
-                    alert("There is not enough fuel for the journey");
+                    // alert("There is not enough fuel for the journey");
                     list.style.visibility = "visible" ;
                     new_Text.innerHTML = "Shuttle not ready for launch";
                     new_Text.style.color = "red";
                     
                 }
                 else if ( cargoLevel  > 10000) {
-                    alert("There is too much mass for the shuttle to take off");
+                   // alert("There is too much mass for the shuttle to take off");
                     list.style.visibility = "visible" ;
                     new_Text.innerHTML = "Shuttle not ready for launch";
                     new_Text.style.color = "red"; 
                 }
+                else {
+                    new_Text.innerHTML = "Shuttle is ready for launch"
+                    new_Text.style.color = "Green";
+                }
             } 
 
-            if (pilot.value === pilot && copilotValue.value === copilot && pilot.value === pilot && copilotValue.value === copilot ) {
-                alert("Shuttle is ready for launch");
-                new_Text.style.color = "Green";
-            }
-            return true;
+            //if (pilot.value === pilot && copilotValue.value === copilot && pilot.value === pilot && copilotValue.value === copilot ) {
+              //  alert("Shuttle is ready for launch");
+               // new_Text.style.color = "Green";
+           // }
+           // return true;
 }
 
 async function myFetch() {
     let planetsReturned;
     planetsReturned = await fetch("https://handlers.education.launchcode.org/static/planets.json").then ( function(response) {
        return   response.json()
+    }).then(function(json){
+        return json;
     });
     return planetsReturned;
 }
